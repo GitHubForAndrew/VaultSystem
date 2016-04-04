@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище VaultDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Vault">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateCreate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VaultAcessLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="AdressIP" Type="varchar" MaxLength="15" />
+          <Property Name="Message" Type="varchar" MaxLength="256" />
+          <Property Name="Access" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="VaultId" Type="int" />
+        </EntityType>
+        <EntityType Name="VaultItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VaultId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="256" />
+          <Property Name="Content" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="VaultUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="VaultId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AccessLevel" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="DateFrom" Type="datetime" Nullable="false" />
+          <Property Name="DateTo" Type="datetime" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_VaultItem_Vault">
+          <End Role="Vault" Type="Self.Vault" Multiplicity="1" />
+          <End Role="VaultItem" Type="Self.VaultItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vault">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VaultItem">
+              <PropertyRef Name="VaultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VaultUser_Vault">
+          <End Role="Vault" Type="Self.Vault" Multiplicity="1" />
+          <End Role="VaultUser" Type="Self.VaultUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vault">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VaultUser">
+              <PropertyRef Name="VaultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище VaultDBModelContainer">
+          <EntitySet Name="Vault" EntityType="Self.Vault" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VaultAcessLog" EntityType="Self.VaultAcessLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VaultItem" EntityType="Self.VaultItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VaultUser" EntityType="Self.VaultUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_VaultItem_Vault" Association="Self.FK_VaultItem_Vault">
+            <End Role="Vault" EntitySet="Vault" />
+            <End Role="VaultItem" EntitySet="VaultItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VaultUser_Vault" Association="Self.FK_VaultUser_Vault">
+            <End Role="Vault" EntitySet="Vault" />
+            <End Role="VaultUser" EntitySet="VaultUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VaultDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Vault">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="VaultUser" Relationship="VaultDBModel.FK_VaultUser_Vault" FromRole="Vault" ToRole="VaultUser" />
+          <NavigationProperty Name="VaultItem" Relationship="VaultDBModel.FK_VaultItem_Vault" FromRole="Vault" ToRole="VaultItem" />
+        </EntityType>
+        <EntityContainer Name="VaultEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Vault" EntityType="Self.Vault" />
+          <EntitySet Name="VaultAcessLog" EntityType="VaultDBModel.VaultAcessLog" />
+          <EntitySet Name="VaultUser" EntityType="VaultDBModel.VaultUser" />
+          <AssociationSet Name="FK_VaultUser_Vault" Association="VaultDBModel.FK_VaultUser_Vault">
+            <End Role="Vault" EntitySet="Vault" />
+            <End Role="VaultUser" EntitySet="VaultUser" />
+          </AssociationSet>
+          <EntitySet Name="VaultItem" EntityType="VaultDBModel.VaultItem" />
+          <AssociationSet Name="FK_VaultItem_Vault" Association="VaultDBModel.FK_VaultItem_Vault">
+            <End Role="Vault" EntitySet="Vault" />
+            <End Role="VaultItem" EntitySet="VaultItem" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="VaultAcessLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AdressIP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Access" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="VaultId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="VaultUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="VaultId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AccessLevel" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="DateFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateTo" Type="DateTime" Precision="3" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Vault" Relationship="VaultDBModel.FK_VaultUser_Vault" FromRole="VaultUser" ToRole="Vault" />
+        </EntityType>
+        <Association Name="FK_VaultUser_Vault">
+          <End Type="VaultDBModel.Vault" Role="Vault" Multiplicity="1" />
+          <End Type="VaultDBModel.VaultUser" Role="VaultUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vault">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VaultUser">
+              <PropertyRef Name="VaultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VaultItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VaultId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Vault" Relationship="VaultDBModel.FK_VaultItem_Vault" FromRole="VaultItem" ToRole="Vault" />
+        </EntityType>
+        <Association Name="FK_VaultItem_Vault">
+          <End Type="VaultDBModel.Vault" Role="Vault" Multiplicity="1" />
+          <End Type="VaultDBModel.VaultItem" Role="VaultItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vault">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VaultItem">
+              <PropertyRef Name="VaultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище VaultDBModelContainer" CdmEntityContainer="VaultEntities">
+          <EntitySetMapping Name="Vault">
+            <EntityTypeMapping TypeName="VaultDBModel.Vault">
+              <MappingFragment StoreEntitySet="Vault">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VaultAcessLog">
+            <EntityTypeMapping TypeName="VaultDBModel.VaultAcessLog">
+              <MappingFragment StoreEntitySet="VaultAcessLog">
+                <ScalarProperty Name="VaultId" ColumnName="VaultId" />
+                <ScalarProperty Name="Access" ColumnName="Access" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="AdressIP" ColumnName="AdressIP" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VaultUser">
+            <EntityTypeMapping TypeName="VaultDBModel.VaultUser">
+              <MappingFragment StoreEntitySet="VaultUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+                <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="VaultId" ColumnName="VaultId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VaultItem">
+            <EntityTypeMapping TypeName="VaultDBModel.VaultItem">
+              <MappingFragment StoreEntitySet="VaultItem">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="VaultId" ColumnName="VaultId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

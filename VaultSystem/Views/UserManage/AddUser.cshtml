@@ -1,0 +1,33 @@
+﻿@model VaultSystem.Models.EditUserView
+@{
+    ViewBag.Title = "New user";
+}
+<div>
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+</div>
+<h2>New user</h2>
+@using (Html.BeginForm())
+{
+    
+    <div style="display:block">
+        <span class="">E-Mail:</span>
+        @Html.TextBox("userName")
+    </div>
+    <div style="display:block">
+        <span class="">Password:</span>
+        @Html.Password("newPassword")
+    </div>
+    <div style="display:block">
+        <span>Confirm password:</span>
+        @Html.Password("confirmPassword")
+    </div>
+    <div style="display:block">
+        <span>Select roles to assign:</span>
+        @Html.ListBox("selectRoles", new MultiSelectList(Model.AllRoles))
+    </div>
+    <div style="display:block">
+        <input type="submit" value="сохранить" class="btn-warning" />
+        @Html.ActionLink("Cancel", "Index")
+    </div>
+}
+

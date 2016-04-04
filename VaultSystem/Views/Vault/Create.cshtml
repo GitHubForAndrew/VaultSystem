@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create vault</h2>
+@using (Html.BeginForm())
+{
+    <span>Vault name:</span>
+    @Html.TextBox("vaultName")
+    <input type="submit" value="Создать" />
+}
+@Html.ActionLink("Cancel", "Index")

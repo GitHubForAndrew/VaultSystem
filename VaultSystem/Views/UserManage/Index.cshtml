@@ -1,0 +1,29 @@
+﻿@model List<VaultSystem.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>User Manage</h2>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Users</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditUser", new { userId = user.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.ActionLink("New user", "AddUser")
+</div>
+

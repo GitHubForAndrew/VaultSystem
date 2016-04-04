@@ -1,0 +1,15 @@
+﻿@model VaultSystem.Models.VaultInfo
+
+@{
+    ViewBag.Title = "Index";
+}
+@if (Model.UserRoles.Exists(r => r == "GlobalAdmin"))
+{
+    <div>
+        @Html.ActionLink("Manage users", "Index", "UserManage")
+    </div>
+}
+
+@Html.Action("Vault", new { vaultId = Model.VaultId })
+   
+

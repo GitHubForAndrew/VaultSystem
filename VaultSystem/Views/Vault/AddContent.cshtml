@@ -1,0 +1,25 @@
+﻿@model int
+@{
+    ViewBag.Title = "AddContent";
+}
+
+<h2>Add content</h2>
+@using (Html.BeginForm())
+{
+    <div>
+        <div>
+            <span>Content name:</span>
+            @Html.TextBox("name")
+        </div>
+        <div>
+            <span>Content:</span>
+            @Html.TextArea("content", new { @style = "width:100%;height:250px;"})
+        </div>
+        <div>
+            @Html.Hidden("vaultId", Model)
+            <input type="submit" value="Save" />
+            @Html.ActionLink("Cancel", "Index", new { vaultID = Model })
+        </div>
+    </div>
+}
+
