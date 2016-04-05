@@ -10,8 +10,8 @@ namespace VaultSystem.Domain.Abstract
     public interface IVaultRepository
     {
         List<Vault> Vaults { get; }
-        void CreaetVault(string vaultName, string userId);
-        void AddVaultItem(int vaultId, VaultItem item);
+        int CreaetVault(Vault vault, string userId);
+        void AddVaultItem(VaultItem item);
         void RemoveVaultItem(VaultItem item);
         void EditVaultAccess(VaultUser vaultUser);
         void RemoveVaultAccess(VaultUser vaultUser);

@@ -1,13 +1,15 @@
-﻿
+﻿@using VaultSystem.Models;
 @{
     ViewBag.Title = "Create";
 }
 
+@Html.ValidationSummary()
 <h2>Create vault</h2>
 @using (Html.BeginForm())
 {
+    var vault = new Vault();
     <span>Vault name:</span>
-    @Html.TextBox("vaultName")
+    @Html.TextBoxFor(m=>vault.Name)
     <input type="submit" value="Create" />
 }
 @Html.ActionLink("Cancel", "Index")

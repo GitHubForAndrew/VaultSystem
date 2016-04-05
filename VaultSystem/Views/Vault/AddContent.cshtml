@@ -1,24 +1,26 @@
-﻿@model int
+﻿@using VaultSystem.Models;
+@model int
 @{
     ViewBag.Title = "AddContent";
 }
-
+@Html.ValidationSummary()
 <h2>Add content</h2>
 @using (Html.BeginForm())
 {
+    var vaultItem = new VaultItem();// { VaultId = Model };
     <div>
         <div>
             <span>Content name:</span>
-            @Html.TextBox("name")
+            @Html.TextBoxFor(m=>vaultItem.Name)
         </div>
         <div>
             <span>Content:</span>
-            @Html.TextArea("content", new { @style = "width:100%;height:250px;"})
+            @Html.TextAreaFor(m=>vaultItem.Content, new { @style = "width:100%;height:250px;"})
         </div>
         <div>
-            @Html.Hidden("vaultId", Model)
+            <input type="hidden" name="vaultItem.VaultId" value=@Model />
             <input type="submit" value="Save" />
-            @Html.ActionLink("Cancel", "Index", new { vaultID = Model })
+            @Html.ActionLink("Cancel", "Index", new { vaultId = Model })
         </div>
     </div>
 }

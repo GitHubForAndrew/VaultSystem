@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace VaultSystem.Controllers
 {
+    [Authorize]
     public class VaultController : Controller
     {
         private IVaultRepository vaultRepository = new VaultRepository();
@@ -85,17 +86,21 @@ namespace VaultSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(string vaultName)
+        public ActionResult Create(Vault vault)
         {
-            if (string.IsNullOrEmpty(vaultName))
+            if (string.IsNullOrEmpty(vault.Name))
             {
                 ModelState.AddModelError("", "Name can't be empty!");
                 return Create();
             }
             var user = UserManager.FindById(User.Identity.GetUserId());
-            var vault = new Vault() { Name = vaultName };
-            vaultRepository.CreaetVault(vaultName, user.Id);
-            return RedirectToAction("Index");
+            var result = vaultRepository.CreaetVault(vault, user.Id);
+            if (result == 0)
+            {
+                ModelState.AddModelError("", "Create vault error. Please try again later.");
+                return Create();
+            }
+            return RedirectToAction("Index", new { vaultId = result });
         }
 
 
@@ -119,18 +124,32 @@ namespace VaultSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddContent(int vaultId, string name, string content)
+        public ActionResult AddContent(VaultItem vaultItem)
         {
-            if (vaultId == 0)
+            if (vaultItem == null && vaultItem.VaultId == 0)
                 return RedirectToAction("Index");
-            var vaultItem = new VaultItem() { Name = name, Content = content };
-            vaultRepository.AddVaultItem(vaultId, vaultItem);
-            return Index(vaultId);
+            if(string.IsNullOrEmpty(vaultItem.Name))
+            {
+                ModelState.AddModelError("", "Name can't be empty!");
+                return AddContent(vaultItem.VaultId);
+            }
+            if(string.IsNullOrEmpty(vaultItem.Content))
+            {
+                ModelState.AddModelError("", "Content can't be empty!");
+                return AddContent(vaultItem.VaultId);
+            }
+            vaultRepository.AddVaultItem(vaultItem);
+            return RedirectToAction("index", new { vaultId = vaultItem.VaultId } );
         }
 
         public ActionResult GetContent(int? id)
         {
 
+            return View();
+        }
+
+        public ActionResult RemoveContent(int contentId = 0)
+        {
             return View();
         }
     }

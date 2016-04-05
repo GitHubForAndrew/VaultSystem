@@ -313,6 +313,7 @@
     <Content Include="Views\Vault\Create.cshtml" />
     <Content Include="Views\Vault\AddContent.cshtml" />
     <Content Include="Views\Vault\GetContent.cshtml" />
+    <Content Include="Views\Vault\RemoveContent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\User\" />

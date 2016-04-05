@@ -2,27 +2,25 @@
 
 <div style="width: 800px; display: inline-block;">
     @Html.ValidationSummary()
-    <div style="margin-bottom:50px">
-        @if (Model.VaultItems != null)
-        {
-            foreach (var item in Model.VaultItems)
-            {
-                <div style="display:inline-block; width:50%">
-                    @Html.ActionLink(item.Name, "GetContent", new { id = item.Id })
-                </div>
-                if (Model.VaultAccessLevel == "Admin" || Model.VaultAccessLevel == "Full")
-                {
-                    <div style="width: 100px; float: right;">
-                        @Html.ActionLink("Remove", "RemoveContent", new { contentId = item.Id })
-                    </div>
-                }
-            }
-        }
-    </div>
-    @if(Model.VaultAccessLevel == "Admin" || Model.VaultAccessLevel == "Full" || Model.VaultAccessLevel == "Write")
+    @if (Model.VaultAccessLevel == "Admin" || Model.VaultAccessLevel == "Full" || Model.VaultAccessLevel == "Write")
     {
-        <div style="display:block">
+        <div style="display:block; margin-bottom:10px;">
             @Html.ActionLink("AddContent", "AddContent", new { vaultId = Model.VaultId })
         </div>
+    }
+    @if (Model.VaultItems != null)
+    {
+        foreach (var item in Model.VaultItems)
+        {
+            <div style="display:inline-block; width:50%">
+                @Html.ActionLink(item.Name, "GetContent", new { id = item.Id })
+            </div>
+            if (Model.VaultAccessLevel == "Admin" || Model.VaultAccessLevel == "Full")
+            {
+                <div style="width: 100px; float: right;">
+                    @Html.ActionLink("Remove", "RemoveContent", new { contentId = item.Id })
+                </div>
+            }
+        }
     }
 </div>

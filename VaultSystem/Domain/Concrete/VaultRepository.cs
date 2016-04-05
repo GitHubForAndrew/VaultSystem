@@ -20,9 +20,8 @@ namespace VaultSystem.Domain.Concrete
             }
         }
 
-        public void AddVaultItem(int vaultId, VaultItem item)
+        public void AddVaultItem(VaultItem item)
         {
-            item.VaultId = vaultId;
             context.VaultItem.Add(item);
             context.SaveChanges();
         }
@@ -33,13 +32,23 @@ namespace VaultSystem.Domain.Concrete
             context.SaveChanges();
         }
 
-        public void CreaetVault(string vaultName, string userId)
+        public int CreaetVault(Vault vault, string userId)
         {
-            var vault = new Vault() { Name = vaultName, DateCreate = DateTime.Now };
-            context.Vault.Add(vault);
-            context.SaveChanges();
-            context.VaultUser.Add(new VaultUser() { AccessLevel = "Admin", VaultId = vault.Id, UserId = userId, DateFrom = DateTime.Now, DateTo = null});
-            context.SaveChanges();            
+            vault.DateCreate = DateTime.Now;
+            var transaction = context.Database.BeginTransaction();
+            try
+            {
+                context.Vault.Add(vault);
+                context.SaveChanges();
+                context.VaultUser.Add(new VaultUser() { AccessLevel = "Admin", VaultId = vault.Id, DateFrom = DateTime.Now, DateTo = null, UserId = userId });
+                context.SaveChanges();
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+            }
+            return vault.Id;
         }
 
         public void EditVaultAccess(VaultUser vaultUser)
