@@ -88,10 +88,15 @@ namespace VaultSystem.Controllers
             {
                 if (newPassword != confirmPassword)
                 {
-                    ModelState.AddModelError("", "Введенные пароли не совпадают!");
+                    ModelState.AddModelError("", "The passwords do not match!");
                     return EditUser(userId);
                 }
-                UserManager.ResetPassword(userId, UserManager.GeneratePasswordResetToken(userId), newPassword);
+                var result = UserManager.ResetPassword(userId, UserManager.GeneratePasswordResetToken(userId), newPassword);
+                if(!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.FirstOrDefault());
+                    return EditUser(userId);
+                }
             }
             return RedirectToAction("Index");
         }
@@ -103,13 +108,13 @@ namespace VaultSystem.Controllers
                 return EditUser(userId);
             if (string.IsNullOrEmpty(newPassword))
             {
-                ModelState.AddModelError("", "Пароль не может быть пустым!");
+                ModelState.AddModelError("", "Password can't be empty!");
                 return AddUser();
             }
 
             if (newPassword != confirmPassword)
             {
-                ModelState.AddModelError("", "Введенные пароли не совпадают!");
+                ModelState.AddModelError("", "The passwords do not match!");
                 return AddUser();
             }
 
@@ -121,7 +126,6 @@ namespace VaultSystem.Controllers
             var result = UserManager.Create(user, newPassword);
             if (!result.Succeeded)
             {
-                ModelState.AddModelError("", "Ошибка добавления пользователя!");
                 ModelState.AddModelError("", result.Errors.FirstOrDefault());
                 return Index();
             }

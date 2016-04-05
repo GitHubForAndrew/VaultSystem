@@ -3,16 +3,19 @@
 <div style="width: 800px; display: inline-block;">
     @Html.ValidationSummary()
     <div style="margin-bottom:50px">
-        @foreach (var item in Model.VaultItems)
+        @if (Model.VaultItems != null)
         {
-            <div style="display:inline-block; width:50%">
-                @Html.ActionLink(item.Name, "GetContent", new { id = item.Id })
-            </div>
-            if (Model.VaultAccessLevel == "Admin" || Model.VaultAccessLevel == "Full")
+            foreach (var item in Model.VaultItems)
             {
-                <div style="width: 100px; float: right;">
-                    @Html.ActionLink("Remove", "RemoveContent", new { contentId = item.Id })
+                <div style="display:inline-block; width:50%">
+                    @Html.ActionLink(item.Name, "GetContent", new { id = item.Id })
                 </div>
+                if (Model.VaultAccessLevel == "Admin" || Model.VaultAccessLevel == "Full")
+                {
+                    <div style="width: 100px; float: right;">
+                        @Html.ActionLink("Remove", "RemoveContent", new { contentId = item.Id })
+                    </div>
+                }
             }
         }
     </div>

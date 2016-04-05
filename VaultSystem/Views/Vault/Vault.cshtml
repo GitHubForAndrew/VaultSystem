@@ -4,31 +4,35 @@
     {
         <div>
             <h4>My vaults</h4>
-            @foreach (var vault in Model.MyVaults)
+            @if (Model.MyVaults != null)
             {
-                <div>
-                    @Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id })
-                </div>
+                foreach (var vault in Model.MyVaults)
+                {
+                    <div>
+                        @Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id })
+                    </div>
+                }
             }
         </div>
         @Html.ActionLink("Create vault", "Create", "Vault")
     }
-
-    @if (Model.OtherVaults.Any())
+    @if (Model.OtherVaults != null)
     {
-        <div>
-            <h4>Other users vaults</h4>
-            @foreach (var vault in Model.OtherVaults)
-            {
-                <div>
-                    @Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id })
-                </div>
-            }
-        </div>
+        if (Model.OtherVaults.Any())
+        {
+            <div>
+                <h4>Other users vaults</h4>
+                @foreach (var vault in Model.OtherVaults)
+                {
+                    <div>
+                        @Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id })
+                    </div>
+                }
+            </div>
+        }
     }
 </div>
 @if (Model.VaultId > 0)
 {
     @Html.Action("VaultItems", new { vaultId = Model.VaultId })
 }
-

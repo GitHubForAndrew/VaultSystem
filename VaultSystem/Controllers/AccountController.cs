@@ -87,7 +87,7 @@ namespace VaultSystem.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Неудачная попытка входа.");
+                    ModelState.AddModelError("", "The login attempt failed.");
                     return View(model);
             }
         }
@@ -130,7 +130,7 @@ namespace VaultSystem.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Неправильный код.");
+                    ModelState.AddModelError("", "Wrong code.");
                     return View(model);
             }
         }

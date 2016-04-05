@@ -58,8 +58,7 @@ namespace VaultSystem.Controllers
 
         private string GetAccess(Vault vault, string userId)
         {
-            var access = vault.VaultUser.FirstOrDefault(vu => vu.UserId == userId && ((vu.DateFrom.Date <= DateTime.Now.Date &&
-            vu.DateFrom.Hour <= DateTime.Now.Hour) && (!vu.DateTo.HasValue || (vu.DateTo.Value.Date >= DateTime.Now.Date && vu.DateTo.Value.Hour >= DateTime.Now.Hour))));
+            var access = vault.VaultUser.FirstOrDefault(vu => vu.UserId == userId && (vu.DateFrom <= DateTime.Now && (!vu.DateTo.HasValue || vu.DateTo >= DateTime.Now)));
 
             if (access == null)
                 return string.Empty;
@@ -79,6 +78,7 @@ namespace VaultSystem.Controllers
             }
         }
 
+        [Authorize(Roles = "VaultAdmin")]
         public ActionResult Create()
         {
             return View();
@@ -103,6 +103,18 @@ namespace VaultSystem.Controllers
         {
             if (vaultId == 0)
                 return RedirectToAction("Index");
+
+            var vault = vaultRepository.Vault(vaultId);
+            if (vault == null)
+                return RedirectToAction("Index", vaultId);
+
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var accessLevel = GetAccess(vault, user.Id);
+            if (string.IsNullOrEmpty(accessLevel) || accessLevel == "Read")
+            {
+                return RedirectToAction("Index", vaultId);
+            }
+
             return View(vaultId);
         }
 

@@ -223,13 +223,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-VaultSystem-20160402095451.mdf" />
-    <Content Include="App_Data\aspnet-VaultSystem-20160402095451_log.ldf">
-      <DependentUpon>aspnet-VaultSystem-20160402095451.mdf</DependentUpon>
+    <Content Include="App_Data\VaultSystem_Identity.mdf" />
+    <Content Include="App_Data\VaultSystem_Identity_log.ldf">
+      <DependentUpon>VaultSystem_Identity.mdf</DependentUpon>
     </Content>
-    <Content Include="App_Data\VaultDB.mdf" />
-    <Content Include="App_Data\VaultDB_log.ldf">
-      <DependentUpon>VaultDB.mdf</DependentUpon>
+    <Content Include="App_Data\VaultSystem.mdf" />
+    <Content Include="App_Data\VaultSystem_log.ldf">
+      <DependentUpon>VaultSystem.mdf</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -256,6 +256,7 @@
     <Content Include="Models\VaultModel.edmx.diagram">
       <DependentUpon>VaultModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\VaultSystem - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\VaultSystem - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
