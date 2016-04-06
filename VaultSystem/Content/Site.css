@@ -24,3 +24,121 @@ textarea {
 }
 
 /*Site css*/
+a.my-btn
+{
+    padding: 0.6em;
+    background-color:#333333;   
+    color:white;
+    display:inline-block;
+    border-radius:4px;
+}
+a.my-btn:hover
+{
+    background-color:lightgray;
+    color:black;
+    text-decoration:none;
+}
+
+div.vault-left-block
+{
+    float:left;
+    width:220px;
+    border-right:solid;
+    border-right-color:darkgray;
+    border-right-width:1px;
+}
+
+a.vault-left-block-item
+{
+    padding:0.6em;
+    display:block;
+}
+
+a.vault-left-block-item:hover
+{
+    background-color:lightgray;
+    text-decoration:none;
+}
+
+a.vault-left-block-item.selected
+{
+    background-color:darkgray;
+    /*padding:0.6em;
+    display:block;*/
+}
+
+div.vailt-item-content
+{
+    margin-left:225px;
+}
+
+div.vault-manage-panel
+{
+    display:flex;
+    height:30px;
+    border-bottom:solid;
+    border-bottom-color:darkgray;
+    border-bottom-width:1px;
+    padding-bottom:1px;
+    background-color:#333333;
+}
+
+a.vault-left-block-btn
+{
+    padding: 0.6em;
+    background-color:darkgreen;   
+    color:white;
+    display:block;
+}
+
+a.vault-left-block-btn:hover
+{
+    background-color:limegreen;
+    color:black;
+    text-decoration:none;
+}
+
+ul.vault-manage-panel-items
+{
+    margin:0px;
+    list-style:none;
+    padding:0px;
+    margin-left:5px;
+    display:inline-flex;
+}
+
+ul.vault-manage-panel-items li
+{
+    display:inline;
+}
+
+ul.vault-manage-panel-items li:first-child a
+{
+    border-left:solid;
+    border-left-color:darkgray;
+    border-left-width:1px;
+}
+
+ul.vault-manage-panel-items li a
+{
+    padding:0.3em;
+    display: block;
+    border-right:solid;
+    border-right-color:darkgray;
+    border-right-width:1px;
+    color:white;
+}
+
+ul.vault-manage-panel-items li a:hover
+{
+    text-decoration:none;
+    color:black;
+    background-color:darkgray;
+}
+
+table.vault-content td:first-child
+{
+    border-bottom:solid;
+    border-bottom-width:1px;
+    border-bottom-color:darkgray;
+}

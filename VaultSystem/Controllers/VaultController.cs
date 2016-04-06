@@ -152,5 +152,10 @@ namespace VaultSystem.Controllers
         {
             return View();
         }
+
+        public ActionResult AccessSettings(int Id)
+        {
+            return View();
+        }
     }
 }

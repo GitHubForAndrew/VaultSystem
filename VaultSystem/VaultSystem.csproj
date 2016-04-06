@@ -314,6 +314,7 @@
     <Content Include="Views\Vault\AddContent.cshtml" />
     <Content Include="Views\Vault\GetContent.cshtml" />
     <Content Include="Views\Vault\RemoveContent.cshtml" />
+    <Content Include="Views\Vault\AccessSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\User\" />

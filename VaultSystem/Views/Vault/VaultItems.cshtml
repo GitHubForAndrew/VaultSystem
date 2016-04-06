@@ -1,26 +1,31 @@
 ﻿@model VaultSystem.Models.VaultItemsView
 
-<div style="width: 800px; display: inline-block;">
     @Html.ValidationSummary()
     @if (Model.VaultAccessLevel == "Admin" || Model.VaultAccessLevel == "Full" || Model.VaultAccessLevel == "Write")
     {
         <div style="display:block; margin-bottom:10px;">
-            @Html.ActionLink("AddContent", "AddContent", new { vaultId = Model.VaultId })
+            @Html.ActionLink("Add сontent", "AddContent", new { vaultId = Model.VaultId }, new { @class = "my-btn" })
         </div>
     }
     @if (Model.VaultItems != null)
     {
-        foreach (var item in Model.VaultItems)
-        {
-            <div style="display:inline-block; width:50%">
-                @Html.ActionLink(item.Name, "GetContent", new { id = item.Id })
-            </div>
-            if (Model.VaultAccessLevel == "Admin" || Model.VaultAccessLevel == "Full")
-            {
-                <div style="width: 100px; float: right;">
-                    @Html.ActionLink("Remove", "RemoveContent", new { contentId = item.Id })
-                </div>
-            }
-        }
+        <table class="vault-content">
+            <tbody>
+                @foreach (var item in Model.VaultItems)
+                {
+                    <tr>
+                        <td style="width:100%">
+                            @Html.ActionLink(item.Name, "GetContent", new { id = item.Id })
+                        </td>
+                        
+                        @if (Model.VaultAccessLevel == "Admin" || Model.VaultAccessLevel == "Full")
+                        {
+                            <td>
+                                @Html.ActionLink("Remove", "RemoveContent", new { contentId = item.Id }, new { @class = "my-btn" })
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
-</div>

@@ -1,5 +1,5 @@
 ﻿@model VaultSystem.Models.VaultView
-<div style="float:left;width:220px;">
+<div class="vault-left-block">
     @if (Model.UserRoles.Exists(r => r == "VaultAdmin"))
     {
         <h4>My vaults</h4>
@@ -7,22 +7,10 @@
         {
             foreach (var vault in Model.MyVaults)
             {
-                @Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id }, new { @style = vault.Id==Model.VaultId ? "background-color:darkgray;padding:0.6em;display:block;" : "padding:0.6em;display:block;" })
-                @*if (vault.Id == Model.VaultId)
-                {
-                    <div style="background-color:darkgray">
-                        <span>@Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id })</span>
-                    </div>
-                }
-                else
-                {
-                    <div>
-                        <span>@Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id })</span>
-                    </div>
-                }*@
+                @Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id }, new { @class = vault.Id==Model.VaultId ? "vault-left-block-item selected" : "vault-left-block-item" })
             }
         }
-        @Html.ActionLink("Create vault", "Create", "Vault")
+        @Html.ActionLink("Create vault", "Create", "Vault", new { @class = "vault-left-block-btn" });
     }
     @if (Model.OtherVaults != null)
     {
@@ -31,25 +19,22 @@
             <h4>Other users vaults</h4>
             foreach (var vault in Model.OtherVaults)
             {
-                @Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id }, new { @style = vault.Id == Model.VaultId ? "background-color:darkgray;padding:0.6em;display:block;" : "padding:0.6em;display:block;" })
-                @*if (vault.Id == Model.VaultId)
-                {
-                    <div style="background-color:darkgray">
-                        <span>@Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id })</span>
-                    </div>
-                }
-                else
-                {
-                    <div>
-                        <span>@Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id })</span>
-                    </div>
-                }*@
-
+                @Html.ActionLink(vault.Name, "Index", new { vaultId = vault.Id }, new { @class = vault.Id == Model.VaultId ? "vault-left-block-item selected" : "vault-left-block-item" })
             }
         }
     }
 </div>
-<div style="margin-left:250px;">
+<div class="vault-manage-panel">
+    @if(Model.UserRoles.Exists(r=>r == "VaultAdmin") && Model.VaultId > 0)
+    {
+        <ul class="vault-manage-panel-items">
+            <li>
+                @Html.ActionLink("Access settings", "AccessSettings", new { Id = Model.VaultId })
+            </li>
+        </ul>
+    }
+</div>
+<div class="vailt-item-content">
     @if (Model.VaultId > 0)
     {
         @Html.Action("VaultItems", new { vaultId = Model.VaultId })
